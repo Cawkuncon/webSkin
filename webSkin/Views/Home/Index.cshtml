@@ -1,0 +1,19 @@
+﻿@using ParseTry.Main
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model List<ResultItem>
+
+<div>
+    <div>
+        @foreach (var skin in Model)
+        {
+            <div>
+                <div>@skin.hash_name</div>
+                <div>@skin.buff_steam_price_cny</div>
+                <div><img width="100px" height="100px" src="@skin.buff_original_icon_url" /></div>
+            </div>
+        }
+    </div>
+</div>
