@@ -9,7 +9,37 @@
     <div>
         <div>
             <form>
-
+                <div>
+                    <input type="number" min="0.1" max="1000000" step="0.1" name="minPrice" placeholder="Minimum Price"/>
+                    -
+                    <input type="number" min="0.1" max="1000000" step="0.1" name="maxPrice" placeholder="Maximum Price" />
+                </div>
+                <div>
+                    <select name="type">
+                        <option value="">All</option>
+                        <option value="knive">Knives</option>
+                        <option value="glove">Gloves</option>
+                        <option value="rifle">Rifles</option>
+                        <option value="pistol">Pistols</option>
+                        <option value="smg">Smgs</option>
+                        <option value="shotgun">Shotguns</option>
+                        <option value="machinegun">Machineguns</option>
+                        <option value="sticker">Stickers</option>
+                        <option value="agent">Agents</option>
+                        <option value="other">Others</option>
+                    </select>
+                </div>
+                <div>
+                    <select name="exterior">
+                        <option value="">All</option>
+                        <option value="">Factory New</option>
+                        <option value="">Minimal Wear</option>
+                        <option value="">Field-Tested</option>
+                        <option value="">Well-Worn</option>
+                        <option value="">Battle-Scarred</option>
+                    </select>
+                </div>
+                <button type="submit">Применить</button>
             </form>
         </div>
         @foreach (var skin in Model)

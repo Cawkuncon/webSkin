@@ -17,9 +17,14 @@ namespace webSkin.Controllers
             this.skinRepositroy = skinRepositroy;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync(decimal minPrice, decimal maxPrice, string type, string exterior)
         {
-            List<ResultItem> items = (await skinRepositroy.GetAllSkinsAsync()).Take(10000).ToList();
+            List<ResultItem> items = await skinRepositroy.GetAllSkinsAsync();
+            items = items
+                .Where(skin => skin.buff_sell_min_price >= minPrice && skin.buff_sell_min_price <= maxPrice)
+                .Where(skin => skin.buff_exterior_localized_name == exterior)
+                .Where(skin=> skin.buff_type_localized_name == type)
+                .ToList();
             return View(items);
         }
 
