@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using ParseTry.Main;
 using System.Diagnostics;
 using webSkin.HelperClasses;
@@ -11,28 +13,47 @@ namespace webSkin.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ISkinRepositroy skinRepositroy;
-
-        public HomeController(ILogger<HomeController> logger, ISkinRepositroy skinRepositroy)
+        private IMemoryCache cache;
+        private List<ResultItem> items;
+        public HomeController(ILogger<HomeController> logger, ISkinRepositroy skinRepositroy, IMemoryCache memoryCache)
         {
             _logger = logger;
             this.skinRepositroy = skinRepositroy;
+            cache = memoryCache;
         }
 
         public async Task<IActionResult> IndexAsync()
         {
-            var hashSetType = new HashSet<string>();
-            var hashSetExtertior = new HashSet<string>();
-            List<ResultItem> items = await skinRepositroy.GetAllSkinsAsync();
+            cache.TryGetValue("skins", out items);
+            if (items == null)
+            {
+                items = await skinRepositroy.GetAllSkinsAsync();
+                cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
+			}
             ViewBag.Skins = items;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(SearchingClass argsClass)
+        public async Task<IActionResult> IndexAsync(SearchingClass argsClass, string Reset)
         {
-            List<ResultItem> items = await skinRepositroy.GetAllSkinsAsync();
-            FilterClass.GetFilterSkins(ref items, argsClass);
-            ViewBag.Skins = items;
+            if (Reset != null)
+            {
+				items = await skinRepositroy.GetAllSkinsAsync();
+				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
+			}
+            else
+            {
+				cache.TryGetValue("skins", out items);
+				if (items == null)
+				{
+					items = await skinRepositroy.GetAllSkinsAsync();
+					cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
+				}
+				FilterClass.GetFilterSkins(ref items, argsClass);
+				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
+			}
+			ViewBag.Skins = items;
             return View();
         }
 

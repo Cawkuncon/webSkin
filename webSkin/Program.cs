@@ -22,6 +22,7 @@ namespace webSkin
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddTransient<ISkinRepositroy, SkinDbRepositroy>();
+            builder.Services.AddMemoryCache();
 
             var app = builder.Build();
 

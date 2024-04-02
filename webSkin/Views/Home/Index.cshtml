@@ -65,17 +65,22 @@
 					<input type="number" min="0.01" max="100" step="0.01" asp-for="maxBM" placeholder="Maximum BM" value="null" />
 				</div>
 				<button type="submit" asp-controller="Home" asp-action="Index">Применить</button>
-			</form>
-			<form>
-				<button type="submit" asp-controller="Home" asp-action="Index">Сброс</button>
+				<button type="submit" asp-controller="Home" asp-action="Index" asp-route-reset="Reset">Сброс</button>
 			</form>
 		</div>
-		@foreach (var skin in ViewBag.Skins)
+		@foreach (ResultItem skin in ViewBag.Skins)
 		{
 			<div>
 				<div>@skin.hash_name</div>
-				<div>@skin.buff_steam_price_cny</div>
+				<div>@skin.buff_sell_min_price</div>
+				<div>@skin.market_price</div>
 				<div><img width="100px" height="100px" src="@skin.buff_original_icon_url" /></div>
+				<div><a href="@skin.buff_url_buff">buff</a></div>
+				<div><a href="@skin.buff_steam_market_url">market</a></div>
+				<div>popularity @skin.market_popularity_7d</div>
+				<div>popularity buff @skin.buff_sell_num</div>
+				<div>bm @skin.pricesBM</div>
+				<div>mb @skin.pricesMB</div>
 			</div>
 		}
 	</div>

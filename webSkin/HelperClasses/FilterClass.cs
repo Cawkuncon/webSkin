@@ -31,13 +31,12 @@ namespace webSkin.HelperClasses
 			{
 				if (argsClass.Sort == "order")
 				{
-					items.OrderBy(skin => skin.market_popularity_7d);
+					items = items.OrderBy(skin => skin.market_popularity_7d).ToList();
 				}
 				else if (argsClass.Sort == "orderDescending")
 				{
-					items.OrderByDescending(skin => skin.market_popularity_7d);
+					items = items.OrderByDescending(skin => skin.market_popularity_7d).ToList();
 				}
-				
 			}
 		}
 	}
