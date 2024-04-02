@@ -1,65 +1,82 @@
 ﻿@using ParseTry.Main
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 @model SearchingClass
 
 <div>
-    <div>
-        <div>
-            <form method="post">
-                <div>
-                    <input type="number" min="0.1" max="1000000" step="0.1" asp-for="minPrice" placeholder="Minimum Price" value="null" />
-                    -
-                    <input type="number" min="0.1" max="1000000" step="0.1" asp-for="maxPrice" placeholder="Maximum Price" value="null" />
-                </div>
-                <div>
-                    <select asp-for="Type">
-                        <option value="">All</option>
-                        <option value="Knives">Knives</option>
-                        <option value="Gloves">Gloves</option>
-                        <option value="Rifles">Rifles</option>
-                        <option value="Sniper Rifles">Sniper Rifles</option>
-                        <option value="Pistols">Pistols</option>
-                        <option value="SMGs">SMGs</option>
-                        <option value="Shotguns">Shotguns</option>
-                        <option value="Machineguns">Machineguns</option>
-                        <option value="Sticker">Stickers</option>
-                        <option value="Agent">Agents</option>
-                        <option value="Music kits">Music kits</option>
-                        <option value="Weapon Cases">Weapon Cases</option>
-                        <option value="Collectibles">Collectibles</option>
-                        <option value="Passes">Passes</option>
-                        <option value="Gifts">Gifts</option>
-                        <option value="Tools">Tools</option>
-                        <option value="Patch">Patches</option>
-                        <option value="Spray">Sprays</option>
-                    </select>
-                </div>
-                <div>
-                    <select asp-for="Exterior">
-                        <option value="">All</option>
-                        <option value="Factory New">Factory New</option>
-                        <option value="Minimal Wear">Minimal Wear</option>
-                        <option value="Field-Tested">Field-Tested</option>
-                        <option value="Well-Worn">Well-Worn</option>
-                        <option value="Battle-Scarred">Battle-Scarred</option>
-                    </select>
-                </div>
-                <button type="submit" asp-controller="Home" asp-action="Index">Применить</button>
-            </form>
-            <form>
-                <button type="submit" asp-controller="Home" asp-action="Index">Сброс</button>
-            </form>
-        </div>
-        @foreach (var skin in ViewBag.Skins)
-        {
-            <div>
-                <div>@skin.hash_name</div>
-                <div>@skin.buff_steam_price_cny</div>
-                <div><img width="100px" height="100px" src="@skin.buff_original_icon_url" /></div>
-            </div>
-        }
-    </div>
+	<div>
+		<div>
+			<form method="post">
+				<div>
+					<input type="number" min="0.1" max="10000000" step="0.1" asp-for="minPrice" placeholder="Minimum Price" value="null" />
+					-
+					<input type="number" min="0.1" max="10000000" step="0.1" asp-for="maxPrice" placeholder="Maximum Price" value="null" />
+				</div>
+				<div>
+					<select asp-for="Type">
+						<option value="">All</option>
+						<option value="Knives">Knives</option>
+						<option value="Gloves">Gloves</option>
+						<option value="Rifles">Rifles</option>
+						<option value="Sniper Rifles">Sniper Rifles</option>
+						<option value="Pistols">Pistols</option>
+						<option value="SMGs">SMGs</option>
+						<option value="Shotguns">Shotguns</option>
+						<option value="Machineguns">Machineguns</option>
+						<option value="Sticker">Stickers</option>
+						<option value="Agent">Agents</option>
+						<option value="Music kits">Music kits</option>
+						<option value="Weapon Cases">Weapon Cases</option>
+						<option value="Collectibles">Collectibles</option>
+						<option value="Passes">Passes</option>
+						<option value="Gifts">Gifts</option>
+						<option value="Tools">Tools</option>
+						<option value="Patch">Patches</option>
+						<option value="Spray">Sprays</option>
+					</select>
+				</div>
+				<div>
+					<select asp-for="Exterior">
+						<option value="">All</option>
+						<option value="Factory New">Factory New</option>
+						<option value="Minimal Wear">Minimal Wear</option>
+						<option value="Field-Tested">Field-Tested</option>
+						<option value="Well-Worn">Well-Worn</option>
+						<option value="Battle-Scarred">Battle-Scarred</option>
+					</select>
+				</div>
+				<div>
+					<select asp-for="Sort">
+						<option value="">None</option>
+						<option value="order">Market popularity</option>
+						<option value="orderDescending">Market popularity descending</option>
+					</select>
+				</div>
+				<div>
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="minMB" placeholder="Minimum MB" value="null" />
+					-
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="maxMB" placeholder="Maximum MB" value="null" />
+				</div>
+				<div>
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="minBM" placeholder="Minimum BM" value="null" />
+					-
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="maxBM" placeholder="Maximum BM" value="null" />
+				</div>
+				<button type="submit" asp-controller="Home" asp-action="Index">Применить</button>
+			</form>
+			<form>
+				<button type="submit" asp-controller="Home" asp-action="Index">Сброс</button>
+			</form>
+		</div>
+		@foreach (var skin in ViewBag.Skins)
+		{
+			<div>
+				<div>@skin.hash_name</div>
+				<div>@skin.buff_steam_price_cny</div>
+				<div><img width="100px" height="100px" src="@skin.buff_original_icon_url" /></div>
+			</div>
+		}
+	</div>
 </div>
