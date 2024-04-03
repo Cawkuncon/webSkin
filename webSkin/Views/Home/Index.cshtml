@@ -71,9 +71,10 @@
 		@foreach (ResultItem skin in ViewBag.Skins)
 		{
 			<div>
+				___________________
 				<div>@skin.hash_name</div>
-				<div>@skin.buff_sell_min_price</div>
-				<div>@skin.market_price</div>
+				<div>buff price @skin.buff_sell_min_price</div>
+				<div>market price @skin.market_price</div>
 				<div><img width="100px" height="100px" src="@skin.buff_original_icon_url" /></div>
 				<div><a href="@skin.buff_url_buff">buff</a></div>
 				<div><a href="@skin.buff_steam_market_url">market</a></div>
@@ -81,6 +82,7 @@
 				<div>popularity buff @skin.buff_sell_num</div>
 				<div>bm @skin.pricesBM</div>
 				<div>mb @skin.pricesMB</div>
+				___________________
 			</div>
 		}
 	</div>
