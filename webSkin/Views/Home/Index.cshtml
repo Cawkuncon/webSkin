@@ -68,22 +68,41 @@
 				<button type="submit" asp-controller="Home" asp-action="Index" asp-route-reset="Reset">Сброс</button>
 			</form>
 		</div>
-		@foreach (ResultItem skin in ViewBag.Skins)
-		{
-			<div>
-				___________________
-				<div>@skin.hash_name</div>
-				<div>buff price @skin.buff_sell_min_price</div>
-				<div>market price @skin.market_price</div>
-				<div><img width="100px" height="100px" src="@skin.buff_original_icon_url" /></div>
-				<div><a href="@skin.buff_url_buff">buff</a></div>
-				<div><a href="@skin.buff_steam_market_url">market</a></div>
-				<div>popularity @skin.market_popularity_7d</div>
-				<div>popularity buff @skin.buff_sell_num</div>
-				<div>bm @skin.pricesBM</div>
-				<div>mb @skin.pricesMB</div>
-				___________________
-			</div>
-		}
+
+		<div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Image</th>
+						<th scope="col">Name</th>
+						<th scope="col">Buff price</th>
+						<th scope="col">Market price</th>
+						<th scope="col">Buff url</th>
+						<th scope="col">Market url</th>
+						<th scope="col">Buff popularity</th>
+						<th scope="col">Market popularity</th>
+						<th scope="col">BM</th>
+						<th scope="col">MB</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (ResultItem skin in ViewBag.Skins)
+					{
+						<tr>
+							<td><img width="50px" height="50px" src="@skin.buff_original_icon_url" /></td>
+							<td>@skin.hash_name</td>
+							<td>@skin.buff_sell_min_price</td>
+							<td>@skin.market_price</td>
+							<td><a href="@skin.buff_url_buff" target="_blank">Buff</a></td>
+							<td><a href="@skin.market_url" target="_blank">Market</a></td>
+							<td>@skin.buff_sell_num</td>
+							<td>@skin.market_popularity_7d</td>
+							<td>@skin.pricesBM</td>
+							<td>@skin.pricesMB</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

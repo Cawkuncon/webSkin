@@ -15,7 +15,7 @@ namespace webSkin.Controllers
         private readonly ISkinRepositroy skinRepositroy;
         private IMemoryCache cache;
         private List<ResultItem> items;
-        private bool flagToResetFilter = false;
+        private bool flagToResetFilter;
         public HomeController(ILogger<HomeController> logger, ISkinRepositroy skinRepositroy, IMemoryCache memoryCache)
         {
             _logger = logger;
@@ -31,6 +31,7 @@ namespace webSkin.Controllers
                 items = await skinRepositroy.GetAllSkinsAsync();
                 cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
                 flagToResetFilter = false;
+                cache.Set("flagToResetFilter", flagToResetFilter);
 			}
             ViewBag.Skins = items;
             return View();
@@ -44,10 +45,12 @@ namespace webSkin.Controllers
 				items = await skinRepositroy.GetAllSkinsAsync();
 				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
 				flagToResetFilter = false;
+				cache.Set("flagToResetFilter", flagToResetFilter);
 			}
             else
             {
 				cache.TryGetValue("skins", out items);
+				cache.TryGetValue("flagToResetFilter", out flagToResetFilter);
 				if (items == null || (items != null && flagToResetFilter))
 				{
 					items = await skinRepositroy.GetAllSkinsAsync();
@@ -55,6 +58,7 @@ namespace webSkin.Controllers
 				FilterClass.GetFilterSkins(ref items, argsClass);
 				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
 				flagToResetFilter = true;
+				cache.Set("flagToResetFilter", flagToResetFilter);
 			}
 			ViewBag.Skins = items;
             return View();
