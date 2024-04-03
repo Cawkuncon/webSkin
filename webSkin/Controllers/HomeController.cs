@@ -15,6 +15,7 @@ namespace webSkin.Controllers
         private readonly ISkinRepositroy skinRepositroy;
         private IMemoryCache cache;
         private List<ResultItem> items;
+        private bool flagToResetFilter = false;
         public HomeController(ILogger<HomeController> logger, ISkinRepositroy skinRepositroy, IMemoryCache memoryCache)
         {
             _logger = logger;
@@ -29,6 +30,7 @@ namespace webSkin.Controllers
             {
                 items = await skinRepositroy.GetAllSkinsAsync();
                 cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
+                flagToResetFilter = false;
 			}
             ViewBag.Skins = items;
             return View();
@@ -41,17 +43,18 @@ namespace webSkin.Controllers
             {
 				items = await skinRepositroy.GetAllSkinsAsync();
 				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
+				flagToResetFilter = false;
 			}
             else
             {
 				cache.TryGetValue("skins", out items);
-				if (items == null)
+				if (items == null || (items != null && flagToResetFilter))
 				{
 					items = await skinRepositroy.GetAllSkinsAsync();
-					cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
 				}
 				FilterClass.GetFilterSkins(ref items, argsClass);
 				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
+				flagToResetFilter = true;
 			}
 			ViewBag.Skins = items;
             return View();
