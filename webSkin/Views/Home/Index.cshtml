@@ -86,7 +86,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach (ResultItem skin in ViewBag.Skins)
+					@foreach (ResultItem skin in ViewBag.IndexViewModel.Items)
 					{
 						<tr>
 							<td><img width="50px" height="50px" src="@skin.buff_original_icon_url" /></td>
@@ -103,6 +103,24 @@
 					}
 				</tbody>
 			</table>
+			@if (ViewBag.IndexViewModel.PageViewModel.HasPreviousPage)
+			{
+				<a asp-action="Index"
+				   asp-route-page="@(ViewBag.IndexViewModel.PageViewModel.PageNumber - 1)"
+				   class="btn btn-outline-dark">
+					<i class="glyphicon glyphicon-chevron-left"></i>
+					Назад
+				</a>
+			}
+			@if (ViewBag.IndexViewModel.PageViewModel.HasNextPage)
+			{
+				<a asp-action="Index"
+				   asp-route-page="@(ViewBag.IndexViewModel.PageViewModel.PageNumber + 1)"
+				   class="btn btn-outline-dark">
+					Вперед
+					<i class="glyphicon glyphicon-chevron-right"></i>
+				</a>
+			}
 		</div>
 	</div>
 </div>
