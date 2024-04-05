@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using webSkin.Data;
+using webSkin.Models;
 using webSkins.Data;
 
 namespace webSkin
@@ -22,6 +23,7 @@ namespace webSkin
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddTransient<ISkinRepositroy, SkinDbRepositroy>();
+            builder.Services.AddSingleton<ISearchingClass, SearchingClass>();
             builder.Services.AddMemoryCache();
 
             var app = builder.Build();

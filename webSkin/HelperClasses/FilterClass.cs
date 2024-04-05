@@ -39,5 +39,18 @@ namespace webSkin.HelperClasses
 				}
 			}
 		}
+
+		public static void SetSearchingArgs(ref ISearchingClass searchingClass, SearchingClass? searchingArgs, List<ResultItem> items)
+		{
+			var itemPrice = items.OrderBy(skin => skin.buff_sell_min_price);
+			searchingClass.minPrice = searchingArgs?.minPrice ?? itemPrice.FirstOrDefault().buff_sell_min_price;
+			searchingClass.maxPrice = searchingArgs?.maxPrice ?? itemPrice.LastOrDefault().buff_sell_min_price;
+			var itemDivBM = items.OrderBy(skin => skin.pricesBM);
+			searchingClass.minBM = searchingArgs?.minBM ?? itemDivBM.FirstOrDefault().pricesBM;
+			searchingClass.maxBM = searchingArgs?.maxBM ?? itemDivBM.LastOrDefault().pricesBM;
+			var itemDivMB = items.OrderBy(skin => skin.pricesMB);
+			searchingClass.minMB = searchingArgs?.minMB ?? itemDivMB.FirstOrDefault().pricesMB;
+			searchingClass.maxMB = searchingArgs?.maxMB ?? itemDivMB.LastOrDefault().pricesMB;
+		}
 	}
 }

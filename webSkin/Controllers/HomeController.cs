@@ -18,11 +18,13 @@ namespace webSkin.Controllers
 		private List<ResultItem> items;
 		private bool flagToResetFilter;
 		private int pageSize = 20;
-		public HomeController(ILogger<HomeController> logger, ISkinRepositroy skinRepositroy, IMemoryCache memoryCache)
+		private ISearchingClass searchingClass;
+		public HomeController(ILogger<HomeController> logger, ISkinRepositroy skinRepositroy, IMemoryCache memoryCache, ISearchingClass searchingClass)
 		{
 			_logger = logger;
 			this.skinRepositroy = skinRepositroy;
 			cache = memoryCache;
+			this.searchingClass = searchingClass;
 		}
 
 		public async Task<IActionResult> IndexAsync(int page = 1)
@@ -35,6 +37,11 @@ namespace webSkin.Controllers
 				flagToResetFilter = false;
 				cache.Set("flagToResetFilter", flagToResetFilter);
 			}
+			if (!searchingClass.firstInitialization)
+			{
+				FilterClass.SetSearchingArgs(ref searchingClass, null, items);
+				searchingClass.firstInitialization = true;
+			}
 			var count = items.Count;
 			items = items.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 			var pageViewModel = new PageViewModel(count, page, pageSize);
@@ -44,6 +51,7 @@ namespace webSkin.Controllers
 				Items = items
 			};
 			ViewBag.IndexViewModel = indexViewModel;
+			ViewBag.FilterArgs = searchingClass;
 			return View();
 		}
 
@@ -55,6 +63,7 @@ namespace webSkin.Controllers
 				items = await skinRepositroy.GetAllSkinsAsync();
 				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
 				flagToResetFilter = false;
+				searchingClass.firstInitialization = false;
 				cache.Set("flagToResetFilter", flagToResetFilter);
 			}
 			else
@@ -66,6 +75,7 @@ namespace webSkin.Controllers
 					items = await skinRepositroy.GetAllSkinsAsync();
 				}
 				FilterClass.GetFilterSkins(ref items, argsClass);
+				FilterClass.SetSearchingArgs(ref searchingClass, argsClass, items);
 				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
 				flagToResetFilter = true;
 				cache.Set("flagToResetFilter", flagToResetFilter);
@@ -79,6 +89,7 @@ namespace webSkin.Controllers
 				Items = items
 			};
 			ViewBag.IndexViewModel = indexViewModel;
+			ViewBag.FilterArgs = searchingClass;
 			return View();
 		}
 

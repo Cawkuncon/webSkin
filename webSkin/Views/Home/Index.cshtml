@@ -10,13 +10,8 @@
 		<div>
 			<form method="post">
 				<div>
-					<input type="number" min="0.1" max="10000000" step="0.1" asp-for="minPrice" placeholder="Minimum Price" value="null" />
-					-
-					<input type="number" min="0.1" max="10000000" step="0.1" asp-for="maxPrice" placeholder="Maximum Price" value="null" />
-				</div>
-				<div>
 					<select asp-for="Type">
-						<option value="">All</option>
+						<option value="">All types</option>
 						<option value="Knives">Knives</option>
 						<option value="Gloves">Gloves</option>
 						<option value="Rifles">Rifles</option>
@@ -39,7 +34,7 @@
 				</div>
 				<div>
 					<select asp-for="Exterior">
-						<option value="">All</option>
+						<option value="">All exteriors</option>
 						<option value="Factory New">Factory New</option>
 						<option value="Minimal Wear">Minimal Wear</option>
 						<option value="Field-Tested">Field-Tested</option>
@@ -49,36 +44,50 @@
 				</div>
 				<div>
 					<select asp-for="Sort">
-						<option value="">None</option>
+						<option value="">Order By</option>
 						<option value="order">Market popularity</option>
 						<option value="orderDescending">Market popularity descending</option>
 					</select>
 				</div>
 				<div>
-					<input type="number" min="0.01" max="100" step="0.01" asp-for="minMB" placeholder="Minimum MB" value="null" />
+					<label asp-for="minPrice">Minimum Price</label>
+					<input type="number" min="0.1" max="10000000" step="0.1" asp-for="minPrice" placeholder="@ViewBag.FilterArgs.minPrice" value="@ViewBag.FilterArgs.minPrice" />
 					-
-					<input type="number" min="0.01" max="100" step="0.01" asp-for="maxMB" placeholder="Maximum MB" value="null" />
+					<label asp-for="maxPrice">Maximum Price</label>
+					<input type="number" min="0.1" max="10000000" step="0.1" asp-for="maxPrice" placeholder="@ViewBag.FilterArgs.maxPrice" value="@ViewBag.FilterArgs.maxPrice" />
 				</div>
 				<div>
-					<input type="number" min="0.01" max="100" step="0.01" asp-for="minBM" placeholder="Minimum BM" value="null" />
+					<label asp-for="minBM">Min BM</label>
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="minBM" placeholder="@ViewBag.FilterArgs.minBM" value="@ViewBag.FilterArgs.minBM" />
 					-
-					<input type="number" min="0.01" max="100" step="0.01" asp-for="maxBM" placeholder="Maximum BM" value="null" />
+					<label asp-for="maxBM">Max BM</label>
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="maxBM" placeholder="@ViewBag.FilterArgs.maxBM" value="@ViewBag.FilterArgs.maxBM" />
+				</div>
+				<div>
+					<label asp-for="minMB">Min MB</label>
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="minMB" placeholder="@ViewBag.FilterArgs.minMB" value="@ViewBag.FilterArgs.minMB" />
+					-
+					<label asp-for="maxMB">Max MB</label>
+					<input type="number" min="0.01" max="100" step="0.01" asp-for="maxMB" placeholder="@ViewBag.FilterArgs.maxMB" value="@ViewBag.FilterArgs.maxMB" />
 				</div>
 				<button type="submit" asp-controller="Home" asp-action="Index">Применить</button>
 				<button type="submit" asp-controller="Home" asp-action="Index" asp-route-reset="Reset">Сброс</button>
 			</form>
 		</div>
-
+		<div>
+			<h5>
+				Total pages: @ViewBag.IndexViewModel.PageViewModel.TotalPages
+				Total count: @ViewBag.IndexViewModel.PageViewModel.TotalCount
+			</h5>
+		</div>
 		<div>
 			<table class="table">
 				<thead>
 					<tr>
 						<th scope="col">Image</th>
-						<th scope="col">Name</th>
-						<th scope="col">Buff price</th>
-						<th scope="col">Market price</th>
-						<th scope="col">Buff url</th>
-						<th scope="col">Market url</th>
+						<th scope="col">Name (Steam)</th>
+						<th scope="col">Buff price (URL)</th>
+						<th scope="col">Market price (URL)</th>
 						<th scope="col">Buff popularity</th>
 						<th scope="col">Market popularity</th>
 						<th scope="col">BM</th>
@@ -90,11 +99,9 @@
 					{
 						<tr>
 							<td><img width="50px" height="50px" src="@skin.buff_original_icon_url" /></td>
-							<td>@skin.hash_name</td>
-							<td>@skin.buff_sell_min_price</td>
-							<td>@skin.market_price</td>
-							<td><a href="@skin.buff_url_buff" target="_blank">Buff</a></td>
-							<td><a href="@skin.market_url" target="_blank">Market</a></td>
+							<td><a href="@skin.buff_steam_market_url" target="_blank">@skin.hash_name</a></td>
+							<td><a href="@skin.buff_url_buff" target="_blank">@skin.buff_sell_min_price</a></td>
+							<td><a href="@skin.market_url" target="_blank">@skin.market_price</a></td>
 							<td>@skin.buff_sell_num</td>
 							<td>@skin.market_popularity_7d</td>
 							<td>@skin.pricesBM</td>
