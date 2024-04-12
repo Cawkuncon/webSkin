@@ -63,6 +63,7 @@ namespace webSkin.Controllers
 				items = await skinRepositroy.GetAllSkinsAsync();
 				cache.Set("skins", items, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20)));
 				flagToResetFilter = false;
+				FilterClass.SetSearchingArgs(ref searchingClass, null, items);
 				searchingClass.firstInitialization = false;
 				cache.Set("flagToResetFilter", flagToResetFilter);
 			}
