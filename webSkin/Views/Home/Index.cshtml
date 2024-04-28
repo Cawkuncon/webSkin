@@ -119,6 +119,45 @@
 					Назад
 				</a>
 			}
+				<a asp-action="Index"
+				   asp-route-page="1"
+				   class="btn btn-outline-dark">
+					<i class="glyphicon glyphicon-chevron-left"></i>
+					1
+				</a>
+			@if (!ViewBag.IndexViewModel.PageViewModel.HasPreviousPage)
+			{
+				<text>...</text>
+			}
+
+			@if (ViewBag.IndexViewModel.PageViewModel.PageNumber > 1 && ViewBag.IndexViewModel.PageViewModel.PageNumber < ViewBag.IndexViewModel.PageViewModel.TotalPages)
+			{
+				@if (ViewBag.IndexViewModel.PageViewModel.PageNumber > 2)
+				{
+					<text>...</text>				
+				}
+				<a asp-action="Index"
+				   asp-route-page="ViewBag.IndexViewModel.PageViewModel.PageNumber"
+				   class="btn btn-outline-dark">
+					<i class="glyphicon glyphicon-chevron-left"></i>
+					@ViewBag.IndexViewModel.PageViewModel.PageNumber
+				</a>
+				@if (ViewBag.IndexViewModel.PageViewModel.PageNumber < ViewBag.IndexViewModel.PageViewModel.TotalPages - 1)
+				{
+					<text>...</text>
+				}
+			}
+			@if (!ViewBag.IndexViewModel.PageViewModel.HasNextPage)
+			{
+				<text>...</text>
+			}
+
+				<a asp-action="Index"
+				   asp-route-page="@(ViewBag.IndexViewModel.PageViewModel.TotalPages)"
+				   class="btn btn-outline-dark">
+					@ViewBag.IndexViewModel.PageViewModel.TotalPages
+					<i class="glyphicon glyphicon-chevron-right"></i>
+				</a>
 			@if (ViewBag.IndexViewModel.PageViewModel.HasNextPage)
 			{
 				<a asp-action="Index"
@@ -128,6 +167,7 @@
 					<i class="glyphicon glyphicon-chevron-right"></i>
 				</a>
 			}
+
 		</div>
 	</div>
 </div>

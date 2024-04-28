@@ -20,6 +20,13 @@
 				return (PageNumber > 1);
 			}
 		}
+		public bool HasPrevPreviousPage
+		{
+			get
+			{
+				return (PageNumber > 2);
+			}
+		}
 
 		public bool HasNextPage
 		{
