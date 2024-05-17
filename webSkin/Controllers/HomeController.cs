@@ -7,10 +7,12 @@ using System.Diagnostics;
 using webSkin.HelperClasses;
 using webSkin.Models;
 using webSkins.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace webSkin.Controllers
 {
-	public class HomeController : Controller
+    [Authorize]
+    public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly ISkinRepositroy skinRepositroy;
