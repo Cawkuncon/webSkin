@@ -50,6 +50,10 @@ namespace webSkin
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+                name: "api",
+                pattern: "api/{controller=Home}/{action=Index}/{id?}");
+
             app.MapRazorPages();
 
             app.Run();
